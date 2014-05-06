@@ -3,7 +3,7 @@
   <bpmn2:collaboration id="_Collaboration_2">
     <bpmn2:participant id="_Participant_2" name="Mule OrderManagement" processRef="mule-order-management"/>
   </bpmn2:collaboration>
-  <bpmn2:process id="mule-order-management" name="Mule OrderManagement" isExecutable="true">
+  <bpmn2:process id="mule-order-management" name="Mule OrderManagement" isExecutable="false">
     <bpmn2:startEvent id="StartEvent_1" name="order&#xD;&#xA;received">
       <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
       <bpmn2:messageEventDefinition id="_MessageEventDefinition_2"/>
