@@ -1,4 +1,4 @@
-package com.camunda.example.mule;
+package de.codecentric.wundershop;
 
 import org.camunda.bpm.application.ProcessApplication;
 import org.camunda.bpm.application.impl.ServletProcessApplication;

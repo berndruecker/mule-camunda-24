@@ -1,0 +1,23 @@
+{
+	"positionen":
+	[
+		{
+			"artikelnummer":"42",
+			"bezeichnung":"Einfache Hexerei",
+			"anzahl":1
+		},
+		{
+			"artikelnummer":"43",
+			"bezeichnung":"Kleine Unmöglichkeit",
+			"anzahl":1
+		}
+	],
+	"adresse":
+	{
+		"email":"besteller@sonstwo.de",
+		"strasseUndHausnummer":"Nirgendwoweg 42",
+		"postleitzahl":"12345",
+		"ort":"Sonstwo"
+	},
+	"bemerkung":"Keine schlaue Bemerkung"
+}
