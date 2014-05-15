@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:pop3s="http://www.mulesoft.org/schema/mule/pop3s" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:imaps="http://www.mulesoft.org/schema/mule/imaps" xmlns:pop3="http://www.mulesoft.org/schema/mule/pop3" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+    xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/imaps http://www.mulesoft.org/schema/mule/imaps/current/mule-imaps.xsd
+http://www.mulesoft.org/schema/mule/pop3 http://www.mulesoft.org/schema/mule/pop3/current/mule-pop3.xsd
+http://www.mulesoft.org/schema/mule/pop3s http://www.mulesoft.org/schema/mule/pop3s/current/mule-pop3s.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+
+    <context:property-placeholder location="mail.properties" />
+
+    <flow name="WundershopMail" doc:name="WundershopMail">
+        <pop3s:inbound-endpoint host="${mail.host}" port="${mail.port}" user="${mail.user}" password="${mail.password}" responseTimeout="10000" doc:name="camunda-mule-wundershop"/>
+        <flow-ref name="OrderFlow" doc:name="OrderFlow"/>
+    </flow>
+
+    <flow name="WundershopVMTestFlow" doc:name="WundershopVMTestFlow">
+        <vm:inbound-endpoint exchange-pattern="one-way" path="vm-mail-test-in" doc:name="Mail-Test in"/>
+        <flow-ref name="OrderFlow" doc:name="OrderFlow"/>
+        <vm:outbound-endpoint exchange-pattern="one-way" path="vm-mail-test-out" doc:name="Mail-Test out"/>
+    </flow>
+
+    <sub-flow name="OrderFlow" doc:name="OrderFlow" >
+        <json:json-to-object-transformer returnClass="de.codecentric.wundershop.domain.Bestellung" doc:name="JSON to Object"/>
+    </sub-flow>
+    
+    <flow name="BestellungJsonCreator" doc:name="BestellungJsonCreator">
+        <vm:inbound-endpoint exchange-pattern="request-response" path="jsoncreate" doc:name="JsonCreate"/>
+        <json:object-to-json-transformer doc:name="Object to JSON"/>
+    </flow>
+
+</mule>
