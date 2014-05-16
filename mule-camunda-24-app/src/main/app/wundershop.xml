@@ -1,38 +1,65 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:context="http://www.springframework.org/schema/context"
+<mule xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:smtps="http://www.mulesoft.org/schema/mule/smtps" xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:pop3s="http://www.mulesoft.org/schema/mule/pop3s" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:imaps="http://www.mulesoft.org/schema/mule/imaps" xmlns:pop3="http://www.mulesoft.org/schema/mule/pop3" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
     xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="
-http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+    xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
 http://www.mulesoft.org/schema/mule/imaps http://www.mulesoft.org/schema/mule/imaps/current/mule-imaps.xsd
 http://www.mulesoft.org/schema/mule/pop3 http://www.mulesoft.org/schema/mule/pop3/current/mule-pop3.xsd
 http://www.mulesoft.org/schema/mule/pop3s http://www.mulesoft.org/schema/mule/pop3s/current/mule-pop3s.xsd
 http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
-http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd">
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
+http://www.mulesoft.org/schema/mule/smtp http://www.mulesoft.org/schema/mule/smtp/current/mule-smtp.xsd
+http://www.mulesoft.org/schema/mule/smtps http://www.mulesoft.org/schema/mule/smtps/current/mule-smtps.xsd
+http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 
     <context:property-placeholder location="mail.properties" />
 
     <flow name="WundershopMail" doc:name="WundershopMail">
-        <pop3s:inbound-endpoint host="${mail.host}" port="${mail.port}" user="${mail.user}" password="${mail.password}" responseTimeout="10000" doc:name="camunda-mule-wundershop"/>
+        <pop3s:inbound-endpoint host="${mail.pop.host}" port="${mail.pop.port}" user="${mail.pop.user}" password="${mail.pop.password}" responseTimeout="10000" doc:name="camunda-mule-wundershop"/>
         <flow-ref name="OrderFlow" doc:name="OrderFlow"/>
-    </flow>
-
-    <flow name="WundershopVMTestFlow" doc:name="WundershopVMTestFlow">
-        <vm:inbound-endpoint exchange-pattern="one-way" path="vm-mail-test-in" doc:name="Mail-Test in"/>
-        <flow-ref name="OrderFlow" doc:name="OrderFlow"/>
-        <vm:outbound-endpoint exchange-pattern="one-way" path="vm-mail-test-out" doc:name="Mail-Test out"/>
     </flow>
 
     <sub-flow name="OrderFlow" doc:name="OrderFlow" >
         <json:json-to-object-transformer returnClass="de.codecentric.wundershop.domain.Bestellung" doc:name="JSON to Object"/>
     </sub-flow>
     
+    <flow name="WundershopSendMailFlow" doc:name="WundershopSendMailFlow">
+        <vm:inbound-endpoint exchange-pattern="one-way" path="vm-send-mail-in" doc:name="Send-Mail"/>
+        <smtps:outbound-endpoint host="${mail.smtp.host}" port="${mail.smtp.port}" user="${mail.smtp.user}" password="${mail.smtp.password}" 
+        to="#[message.inboundProperties['to']]" from="#[message.inboundProperties['from']]" subject="#[message.inboundProperties['subject']]" responseTimeout="10000" doc:name="SMTP"/>
+        <vm:outbound-endpoint exchange-pattern="one-way" path="vm-send-mail-out" doc:name="Mail-Test out"/>
+    </flow>
+    
+    <!-- Flows für Testzwecke -->
+    
+    <flow name="WundershopVMTestFlow" doc:name="WundershopVMTestFlow">
+        <vm:inbound-endpoint exchange-pattern="one-way" path="vm-mail-test-in" doc:name="Mail-Test in"/>
+        <flow-ref name="OrderFlow" doc:name="OrderFlow"/>
+        <vm:outbound-endpoint exchange-pattern="one-way" path="vm-mail-test-out" doc:name="Mail-Test out"/>
+    </flow>
+
     <flow name="BestellungJsonCreator" doc:name="BestellungJsonCreator">
         <vm:inbound-endpoint exchange-pattern="request-response" path="jsoncreate" doc:name="JsonCreate"/>
         <json:object-to-json-transformer doc:name="Object to JSON"/>
     </flow>
 
+    <flow name="FakeServiceCaller" doc:name="FakeServiceCaller">
+        <vm:inbound-endpoint exchange-pattern="request-response" path="fakeservicecaller" doc:name="FakeServiceCaller"/>
+        <!-- Use this set-variable if you want to determine the operation dynamically 
+             <set-variable variableName="operation" value="dummyCall" doc:name="operation" />
+         -->
+        <cxf:jaxws-client operation="dummyCall" serviceClass="de.codecentric.wundershop.shopservice.Shopservice" soapVersion="1.2" doc:name="CXF" />
+        <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop" method="POST" doc:name="HTTP"/>
+    </flow>
+        
+    <flow name="FakeShopService" doc:name="FakeShopService">
+        <http:inbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop" doc:name="8081 soap" />
+        <cxf:jaxws-service doc:name="CXF" validationEnabled="true" soapVersion="1.2" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"/>
+        <component class="de.codecentric.wundershop.fakeshopservice.FakeShopserviceImplementation" doc:name="Java"/>
+    </flow>
 </mule>
