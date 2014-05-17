@@ -3,10 +3,22 @@ package de.codecentric.wundershop.domain;
 import java.util.List;
 
 public class Bestellung {
+    private String id;
     private List<Position> positionen;
     private Adresse adresse;
     private String bemerkung;
     
+    /**
+     * @return UUID Um Bestellung eindeutig zu identifzieren und Zahlung zuzuordnen.
+     */
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public List<Position> getPositionen() {
         return positionen;
     }

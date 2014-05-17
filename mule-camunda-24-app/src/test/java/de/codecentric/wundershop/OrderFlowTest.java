@@ -46,6 +46,7 @@ public class OrderFlowTest extends FunctionalTestCase {
 	assertNotNull(reply);
 	Bestellung b  = (Bestellung) reply.getPayload();
 	assertNotNull(b);
+	assertEquals("f0206b22-d69e-11e3-b59e-3d74e3bb94c4", b.getId());
 	assertEquals("Keine schlaue Bemerkung", b.getBemerkung());
 	assertEquals(2, b.getPositionen().size());
     }
