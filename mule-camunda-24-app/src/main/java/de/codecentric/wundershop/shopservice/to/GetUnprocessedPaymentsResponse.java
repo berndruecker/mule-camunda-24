@@ -1,5 +1,8 @@
 package de.codecentric.wundershop.shopservice.to;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -9,15 +12,15 @@ import javax.xml.bind.annotation.XmlType;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(namespace = "http://shop.de/services/to")
-public class DummyResponse {
+public class GetUnprocessedPaymentsResponse {
     @XmlElement
-    private String dummy;
+    private List<String> payments = new ArrayList<>();
 
-    public String getDummy() {
-        return dummy;
+    public List<String> getPayments() {
+        return payments;
     }
 
-    public void setDummy(String dummy) {
-        this.dummy = dummy;
+    public void setPayments(List<String> payments) {
+        this.payments = payments;
     }
 }

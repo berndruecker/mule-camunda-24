@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<mule-configuration xmlns="http://www.mulesoft.com/tooling/messageflow" name="fakeshopsystem">
+    <global-element name="Bean" type="http://www.springframework.org/schema/beans/bean" entity-id="Bean#1">
+        <properties>
+            <property name="parent"/>
+            <property name="autowire-candidate"/>
+            <property name="autowire"/>
+            <property name="lazy-init"/>
+            <property name="init-method"/>
+            <property name="abstract"/>
+            <property name="auxiliary;wrapIn" value="1"/>
+            <property name="auxiliary;index" value="2"/>
+            <property name="depends-on"/>
+            <property name="factory-method"/>
+            <property name="children"/>
+            <property name="scope" value="singleton"/>
+            <property name="factory-bean"/>
+            <property name="name"/>
+            <property name="id" value="fakeShop"/>
+            <property name="destroy-method"/>
+            <property name="auxiliary;wrappedIn" value="beans@spring@http://www.springframework.org/schema/beans"/>
+            <property name="class" value="de.codecentric.wundershop.fakeshopservice.FakeShopserviceImplementation"/>
+            <property name="primary"/>
+        </properties>
+    </global-element>
+    <flow SubFlow="false" name="FakeServiceCaller" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="4c896156-b36a-4702-a744-629bcaa4a5d5">
+        <properties>
+            <property name="initialState"/>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="auxiliary;index" value="3"/>
+        </properties>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
+            <graphicalData x="0" y="0" width="0" height="0"/>
+            <endpoint direction="Inbound" name="FakeServiceCaller" type="org.mule.tooling.ui.modules.core.endpoint.vmEndpoint" entity-id="VM#1">
+                <graphicalData x="21" y="62" width="105" height="203"/>
+                <properties>
+                    <property name="connector-ref"/>
+                    <property name="address"/>
+                    <property name="mimeType"/>
+                    <property name="encoding"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="auxiliary;index" value="4"/>
+                    <property name="path" value="fakeservicecaller"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="exchange-pattern" value="request-response"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="ref"/>
+                    <property name="transformer-refs"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="responseTimeout"/>
+                </properties>
+            </endpoint>
+            <pattern name="operation" type="http://www.mulesoft.org/schema/mule/core/variable-transformer" entity-id="Variable#1">
+                <graphicalData x="186" y="62" width="68" height="69"/>
+                <properties>
+                    <property name="variableName" value="operation"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/core/set-variable"/>
+                    <property name="value" value="#[message.inboundProperties['operation']]"/>
+                    <property name="auxiliary;index" value="5"/>
+                </properties>
+            </pattern>
+            <pattern name="CXF" type="http://www.mulesoft.org/schema/mule/cxf/soapComponent" entity-id="CXF#1">
+                <graphicalData x="489" y="62" width="68" height="203"/>
+                <properties>
+                    <property name="wsdlLocation"/>
+                    <property name="serviceClass" value="de.codecentric.wundershop.shopservice.Shopservice"/>
+                    <property name="port"/>
+                    <property name="configuration-ref"/>
+                    <property name="mtomEnabled"/>
+                    <property name="clientClass"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/cxf/jaxws-client"/>
+                    <property name="operation" value="dummyCall"/>
+                    <property name="enableMuleSoapHeaders"/>
+                    <property name="soapVersion" value="1.2"/>
+                    <property name="decoupledEndpoint"/>
+                    <property name="auxiliary;index" value="8"/>
+                </properties>
+            </pattern>
+            <endpoint direction="Outbound" name="HTTP" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#1">
+                <graphicalData x="617" y="62" width="68" height="69"/>
+                <properties>
+                    <property name="connector-ref"/>
+                    <property name="address" value="http://localhost:8081/soap/shop"/>
+                    <property name="method" value="POST"/>
+                    <property name="mimeType"/>
+                    <property name="encoding"/>
+                    <property name="httpLabel"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="auxiliary;index" value="9"/>
+                    <property name="path"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="exchange-pattern" value="request-response"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="ref"/>
+                    <property name="password"/>
+                    <property name="keep-alive"/>
+                    <property name="port"/>
+                    <property name="followRedirects"/>
+                    <property name="host"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/http/endpoint"/>
+                    <property name="transformer-refs"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="user"/>
+                    <property name="contentType"/>
+                    <property name="responseTimeout"/>
+                </properties>
+            </endpoint>
+        </lane>
+    </flow>
+    <flow SubFlow="false" name="FakeShopService" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="e611b424-0c8b-43d4-b87a-66d102858dbf">
+        <properties>
+            <property name="initialState"/>
+            <property name="processingStrategy2"/>
+            <property name="processingStrategy"/>
+            <property name="bussinessEventsLabel"/>
+            <property name="tracking:enable-default-events"/>
+            <property name="auxiliary;index" value="10"/>
+        </properties>
+        <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#3">
+            <graphicalData x="0" y="0" width="0" height="0"/>
+            <endpoint direction="Inbound" name="8081 soap" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#2">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="connector-ref"/>
+                    <property name="address" value="http://localhost:8081/soap/shop"/>
+                    <property name="method"/>
+                    <property name="mimeType"/>
+                    <property name="encoding"/>
+                    <property name="httpLabel"/>
+                    <property name="disableTransportTransformer"/>
+                    <property name="auxiliary;index" value="11"/>
+                    <property name="path"/>
+                    <property name="responseTransformer-refs"/>
+                    <property name="exchange-pattern" value="request-response"/>
+                    <property name="tracking:enable-default-events"/>
+                    <property name="ref"/>
+                    <property name="password"/>
+                    <property name="keep-alive"/>
+                    <property name="port"/>
+                    <property name="followRedirects"/>
+                    <property name="host"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/http/endpoint"/>
+                    <property name="transformer-refs"/>
+                    <property name="businessEventsLabel"/>
+                    <property name="user"/>
+                    <property name="contentType"/>
+                    <property name="responseTimeout"/>
+                </properties>
+            </endpoint>
+            <pattern name="CXF" type="http://www.mulesoft.org/schema/mule/cxf/soapComponent" entity-id="CXF#2">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="serviceClass" value="de.codecentric.wundershop.shopservice.Shopservice"/>
+                    <property name="configuration-ref"/>
+                    <property name="validationEnabled" value="true"/>
+                    <property name="mtomEnabled"/>
+                    <property name="onException"/>
+                    <property name="auxiliary;index" value="12"/>
+                    <property name="wsdlLocation"/>
+                    <property name="port"/>
+                    <property name="service"/>
+                    <property name="namespace"/>
+                    <property name="org.mule.tooling.ui.modules.core.widgets.meta.ModeAttribute" value="http://www.mulesoft.org/schema/mule/cxf/jaxws-service"/>
+                    <property name="bindingId"/>
+                    <property name="enableMuleSoapHeaders"/>
+                    <property name="soapVersion" value="1.2"/>
+                </properties>
+            </pattern>
+            <pattern name="Java" type="http://www.mulesoft.org/schema/mule/core/component" entity-id="Java#2">
+                <graphicalData x="0" y="0" width="0" height="0"/>
+                <properties>
+                    <property name="class"/>
+                    <property name="auxiliary;index" value="13"/>
+                    <property-collection name="@http://www.mulesoft.org/schema/mule/core/spring-object;0">
+                        <property name="auxiliary;wrapIn" value="14"/>
+                        <property name="bean" value="fakeShop"/>
+                        <property name="auxiliary;index" value="14"/>
+                    </property-collection>
+                </properties>
+            </pattern>
+        </lane>
+    </flow>
+</mule-configuration>
