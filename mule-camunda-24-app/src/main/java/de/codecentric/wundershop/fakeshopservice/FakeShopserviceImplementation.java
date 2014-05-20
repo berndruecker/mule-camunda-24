@@ -17,6 +17,22 @@ public class FakeShopserviceImplementation implements Shopservice {
     
     private Set<String> paydAndUnprocessedOrders = new LinkedHashSet<>();
     
+    {
+	paydAndUnprocessedOrders.add("1");
+	paydAndUnprocessedOrders.add("2");
+	paydAndUnprocessedOrders.add("3");
+    }
+    
+    @Override
+    public void setStatusConfirmed() {
+	logger.info("set status confirmed");
+    }
+    
+    @Override
+    public void setStatusDeclined(String reason) {
+	logger.info("set status declinde, reason: \"" + reason + "\"");
+    }
+    
     @Override
     public synchronized GetUnprocessedPaymentsResponse getUnprocessedPayments() {
 	GetUnprocessedPaymentsResponse result = new GetUnprocessedPaymentsResponse();

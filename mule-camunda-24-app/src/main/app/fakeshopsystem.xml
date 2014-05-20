@@ -12,7 +12,7 @@ http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
 
     <spring:beans>
-        <!-- We need a bean because we the instance in the test case. -->
+        <!-- We need a bean because we need the instance in the test case. -->
         <spring:bean id="fakeShop" class="de.codecentric.wundershop.fakeshopservice.FakeShopserviceImplementation" scope="singleton" />
     </spring:beans>
     
@@ -28,7 +28,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
     <flow name="FakeShopService" doc:name="FakeShopService">
         <http:inbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop" doc:name="8081 soap" />
         <cxf:jaxws-service doc:name="CXF" validationEnabled="true" soapVersion="1.2" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"/>
-        <component doc:name="Java">
+        <component doc:name="FakeShop as Bean">
             <spring-object bean="fakeShop" />
         </component>
     </flow>

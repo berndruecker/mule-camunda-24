@@ -8,6 +8,18 @@ import de.codecentric.wundershop.shopservice.to.GetUnprocessedPaymentsResponse;
 @WebService(targetNamespace = "http://shop.de/services")
 public interface Shopservice {
     /**
+     * Mark in shop status as "we will deliver this wunder".
+     */
+    @WebMethod
+    public void setStatusConfirmed();
+
+    /**
+     * @param reason Why we don't want to make this wunder happen.
+     */
+    @WebMethod
+    public void setStatusDeclined(String reason);
+
+    /**
      * @return Order IDs of orders where a payment is received but not yet processed.
      */
     @WebMethod
