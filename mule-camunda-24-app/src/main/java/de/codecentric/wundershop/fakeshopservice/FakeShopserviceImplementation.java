@@ -15,13 +15,7 @@ import de.codecentric.wundershop.shopservice.to.GetUnprocessedPaymentsResponse;
 public class FakeShopserviceImplementation implements Shopservice {
     private static Logger logger = Logger.getLogger(FakeShopserviceImplementation.class);
     
-    private Set<String> paydAndUnprocessedOrders = new LinkedHashSet<>();
-    
-    {
-	paydAndUnprocessedOrders.add("1");
-	paydAndUnprocessedOrders.add("2");
-	paydAndUnprocessedOrders.add("3");
-    }
+    private Set<String> paidAndUnprocessedOrders = new LinkedHashSet<>();
     
     @Override
     public void setStatusConfirmed() {
@@ -36,13 +30,13 @@ public class FakeShopserviceImplementation implements Shopservice {
     @Override
     public synchronized GetUnprocessedPaymentsResponse getUnprocessedPayments() {
 	GetUnprocessedPaymentsResponse result = new GetUnprocessedPaymentsResponse();
-	result.setPayments(new ArrayList<>(paydAndUnprocessedOrders));
+	result.setPayments(new ArrayList<>(paidAndUnprocessedOrders));
 	return result;
     }
 
     @Override
     public synchronized String markPaymentProcessed(String id) {
-	paydAndUnprocessedOrders.remove(id);
+	paidAndUnprocessedOrders.remove(id);
 	return id;
     }
 
@@ -56,6 +50,6 @@ public class FakeShopserviceImplementation implements Shopservice {
      * @param id Order ID
      */
     public synchronized void markOrderAsPaid(String id) {
-	paydAndUnprocessedOrders.add(id);
+	paidAndUnprocessedOrders.add(id);
     }
 }

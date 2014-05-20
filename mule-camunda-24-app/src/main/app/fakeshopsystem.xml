@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:context="http://www.springframework.org/schema/context"
+<mule xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey" xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
     xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
@@ -9,14 +9,25 @@ http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/cor
 http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
 http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
-http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/jersey/current/mule-jersey.xsd">
 
     <spring:beans>
         <!-- We need a bean because we need the instance in the test case. -->
         <spring:bean id="fakeShop" class="de.codecentric.wundershop.fakeshopservice.FakeShopserviceImplementation" scope="singleton" />
     </spring:beans>
     
-    <!-- Flows für Testzwecke -->
+    <!-- Flows to implement a fake shop -->
+    
+    <flow name="FakeShopService" doc:name="FakeShopService">
+        <http:inbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop" doc:name="8081 soap" />
+        <cxf:jaxws-service doc:name="CXF" validationEnabled="true" soapVersion="1.2" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"/>
+        <component doc:name="FakeShop as Bean">
+            <spring-object bean="fakeShop" />
+        </component>
+    </flow>
+    
+    <!-- Flows for testing and faking payments -->
     
     <flow name="FakeServiceCaller" doc:name="FakeServiceCaller">
         <vm:inbound-endpoint exchange-pattern="request-response" path="fakeservicecaller" doc:name="FakeServiceCaller"/>
@@ -25,11 +36,10 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
         <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop" method="POST" doc:name="HTTP"/>
     </flow>
         
-    <flow name="FakeShopService" doc:name="FakeShopService">
-        <http:inbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop" doc:name="8081 soap" />
-        <cxf:jaxws-service doc:name="CXF" validationEnabled="true" soapVersion="1.2" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"/>
-        <component doc:name="FakeShop as Bean">
-            <spring-object bean="fakeShop" />
-        </component>
+    <flow name="FakeRestPayment" doc:name="FakeRestPayment">
+        <http:inbound-endpoint exchange-pattern="request-response" address="http://localhost:8082/rest" doc:name="8082 rest" />
+        <jersey:resources doc:name="REST">
+            <component class="de.codecentric.wundershop.fakeshopservice.RestPayment"/>
+        </jersey:resources>
     </flow>
 </mule>

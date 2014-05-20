@@ -36,7 +36,13 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
             <fixed-frequency-scheduler frequency="10" timeUnit="SECONDS" />
             <echo-component doc:name="Echo" />
         </poll>
-        <vm:outbound-endpoint exchange-pattern="request-response" path="poll-call" doc:name="poll-call"/>
+<!--         <vm:outbound-endpoint exchange-pattern="request-response" path="poll-call" doc:name="poll-call"/> -->
+        <processor-chain>
+            <cxf:jaxws-client operation="getUnprocessedPayments" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"
+                soapVersion="1.2" doc:name="CXF" />
+            <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop"
+                method="POST" doc:name="HTTP" />
+        </processor-chain>
         <response>
             <expression-transformer expression="#[payload.payments]" doc:name="list with payments"/>
             <collection-splitter doc:name="Collection Splitter"/>
@@ -48,6 +54,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
         </response>
     </flow>
 
+<!-- 
     <flow name="PollVmFlow" doc:name="PollVmFlow">
         <vm:inbound-endpoint exchange-pattern="request-response" path="poll-call" doc:name="poll-call" />
         <cxf:jaxws-client operation="getUnprocessedPayments" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"
@@ -55,6 +62,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
         <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop"
             method="POST" doc:name="HTTP" />
     </flow>
+ -->    
     
     <flow name="SendMailFlow" doc:name="SendMailFlow">
         <vm:inbound-endpoint exchange-pattern="one-way" path="vm-send-mail-in" doc:name="Send-Mail" />
