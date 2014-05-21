@@ -28,42 +28,28 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
     <sub-flow name="OrderFlow" doc:name="OrderFlow">
         <json:json-to-object-transformer returnClass="de.codecentric.wundershop.domain.Bestellung"
             doc:name="JSON to Object" />
-        <custom-transformer class="de.codecentric.wundershop.transformers.CreateWorkflowTransformer" doc:name="CreateWorkflow"/>
+        <custom-transformer class="de.codecentric.wundershop.transformers.CreateWorkflowTransformer" doc:name="create workflow"/>
     </sub-flow>
 
     <flow name="PollForPayment" doc:name="PollForPayment">
         <poll doc:name="Poll Shop">
             <fixed-frequency-scheduler frequency="10" timeUnit="SECONDS" />
-            <echo-component doc:name="Echo" />
+            <processor-chain doc:name="Processor Chain">
+                <cxf:jaxws-client operation="getUnprocessedPayments" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"
+                    soapVersion="1.2" doc:name="get unprocessed" />
+                <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop"
+                    method="POST" doc:name="8081 Shop" />
+            </processor-chain>
         </poll>
-<!--         <vm:outbound-endpoint exchange-pattern="request-response" path="poll-call" doc:name="poll-call"/> -->
-        <processor-chain>
-            <cxf:jaxws-client operation="getUnprocessedPayments" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"
-                soapVersion="1.2" doc:name="CXF" />
-            <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop"
-                method="POST" doc:name="HTTP" />
-        </processor-chain>
-        <response>
-            <expression-transformer expression="#[payload.payments]" doc:name="list with payments"/>
-            <collection-splitter doc:name="Collection Splitter"/>
-            <custom-transformer class="de.codecentric.wundershop.transformers.SendPaymentReceivedToWorkflow" doc:name="Java"/>
-            <cxf:jaxws-client operation="markPaymentProcessed" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"
-                soapVersion="1.2" doc:name="CXF" />
-            <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop"
-                method="POST" doc:name="HTTP" />
-        </response>
+        <expression-transformer expression="#[payload.payments]" doc:name="list with payments"/>
+        <collection-splitter doc:name="split list"/>
+        <custom-transformer class="de.codecentric.wundershop.transformers.SendPaymentReceivedToWorkflow" doc:name="call workflow"/>
+        <cxf:jaxws-client operation="markPaymentProcessed" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"
+            soapVersion="1.2" doc:name="mark processed" />
+        <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop"
+            method="POST" doc:name="8081 Shop" />
     </flow>
 
-<!-- 
-    <flow name="PollVmFlow" doc:name="PollVmFlow">
-        <vm:inbound-endpoint exchange-pattern="request-response" path="poll-call" doc:name="poll-call" />
-        <cxf:jaxws-client operation="getUnprocessedPayments" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"
-            soapVersion="1.2" doc:name="CXF" />
-        <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop"
-            method="POST" doc:name="HTTP" />
-    </flow>
- -->    
-    
     <flow name="SendMailFlow" doc:name="SendMailFlow">
         <vm:inbound-endpoint exchange-pattern="one-way" path="vm-send-mail-in" doc:name="Send-Mail" />
         <smtps:outbound-endpoint host="${mail.smtp.host}" port="${mail.smtp.port}" user="${mail.smtp.user}"
@@ -72,7 +58,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
         <vm:outbound-endpoint exchange-pattern="one-way" path="vm-send-mail-out" doc:name="Mail-Test out" />
     </flow>
 
-    <!-- Flows für Testzwecke -->
+    <!-- Flows for testing -->
 
     <flow name="VMTestFlow" doc:name="VMTestFlow">
         <vm:inbound-endpoint exchange-pattern="one-way" path="vm-mail-test-in" doc:name="Mail-Test in" />
