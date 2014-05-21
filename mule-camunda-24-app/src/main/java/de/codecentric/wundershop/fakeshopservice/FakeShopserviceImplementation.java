@@ -1,13 +1,16 @@
 package de.codecentric.wundershop.fakeshopservice;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
+import java.util.Map;
 import java.util.Set;
 
 import javax.jws.WebService;
 
 import org.apache.log4j.Logger;
 
+import de.codecentric.wundershop.shopservice.ShopStatus;
 import de.codecentric.wundershop.shopservice.Shopservice;
 import de.codecentric.wundershop.shopservice.to.GetUnprocessedPaymentsResponse;
 
@@ -16,22 +19,8 @@ public class FakeShopserviceImplementation implements Shopservice {
     private static Logger logger = Logger.getLogger(FakeShopserviceImplementation.class);
     
     private Set<String> paidAndUnprocessedOrders = new LinkedHashSet<>();
+    private Map<String, ShopStatus> orderStatus = new HashMap<>();
     
-    {
-	paidAndUnprocessedOrders.add("first");
-	paidAndUnprocessedOrders.add("second");
-	paidAndUnprocessedOrders.add("third");
-    }
-    
-    @Override
-    public void setStatusConfirmed() {
-	logger.info("set status confirmed");
-    }
-    
-    @Override
-    public void setStatusDeclined(String reason) {
-	logger.info("set status declinde, reason: \"" + reason + "\"");
-    }
     
     @Override
     public synchronized GetUnprocessedPaymentsResponse getUnprocessedPayments() {
@@ -47,8 +36,9 @@ public class FakeShopserviceImplementation implements Shopservice {
     }
 
     @Override
-    public void markOrderAsShipped(String id) {
-	logger.info("Order \"" + id + "\" has been shipped");
+    public synchronized void setStatus(String id, ShopStatus status) {
+	logger.info("set status of order \"" + id + "\" to " + status);
+	orderStatus.put(id, status);
     }
 
     /**
@@ -57,5 +47,14 @@ public class FakeShopserviceImplementation implements Shopservice {
      */
     public synchronized void markOrderAsPaid(String id) {
 	paidAndUnprocessedOrders.add(id);
+    }
+    
+    /**
+     * <em>Not</em> a WebMethod!
+     * @param id Order ID
+     * @return Status of order.
+     */
+    public synchronized ShopStatus getStatus(String id) {
+	return orderStatus.get(id);
     }
 }

@@ -12,7 +12,7 @@ import org.mule.api.client.MuleClient;
 import org.mule.tck.junit4.FunctionalTestCase;
 
 /**
- * Kein echter Testfall, aber verschickt eine Mail über den SMTP-Connector.
+ * Not a real test case (does no verify), but can be used to test manually.
  */
 public class SendMailTest extends FunctionalTestCase {
     protected String getConfigResources() {
@@ -26,8 +26,7 @@ public class SendMailTest extends FunctionalTestCase {
 	properties.put("to", "roger.butenuth@codecentric.de");
 	properties.put("from", "wundershop@gmx.de");
 	properties.put("subject", "Ein sinnfreies subject");
-	client.dispatch("vm://vm-send-mail-in", "Mail mit wenig Inhalt", properties);
-	MuleMessage reply = client.request("vm://vm-send-mail-out", 10000);
+	MuleMessage reply = client.send("vm://send-mail", "Mail mit wenig Inhalt", properties);
 	assertNotNull(reply);
     }
 }

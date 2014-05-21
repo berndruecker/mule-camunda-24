@@ -1,6 +1,7 @@
 package de.codecentric.wundershop;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
@@ -14,12 +15,13 @@ import org.mule.api.client.MuleClient;
 import org.mule.tck.junit4.FunctionalTestCase;
 
 import de.codecentric.wundershop.fakeshopservice.FakeShopserviceImplementation;
+import de.codecentric.wundershop.shopservice.ShopStatus;
 import de.codecentric.wundershop.shopservice.to.GetUnprocessedPaymentsResponse;
 
 public class FakeServiceCallTest extends FunctionalTestCase {
     
     protected String getConfigResources() {
-	return "src/main/app/fakeshopsystem.xml";
+	return "src/main/app/fakeshopsystem.xml,src/main/app/wundershop.xml";
     }
     
     @Test
@@ -46,6 +48,16 @@ public class FakeServiceCallTest extends FunctionalTestCase {
 	assertEquals("second", list.get(0));
     }
     
+    @Test
+    public void testSetStatusFlow() throws MuleException {
+	FakeShopserviceImplementation fakeShop = muleContext.getRegistry().lookupObject("fakeShop");
+	MuleClient client = muleContext.getClient();
+	Object args[] = new Object[] { "id", ShopStatus.SHIPPED };
+	MuleMessage reply = client.send("vm://set-status", args, null);
+	assertNotNull(reply);
+	assertEquals(ShopStatus.SHIPPED, fakeShop.getStatus("id"));
+    }
+    
     private Object call(String operation, Object argument) throws MuleException {
 	Map<String, Object> props = new HashMap<>();
 	props.put("operation", operation);
@@ -57,6 +69,6 @@ public class FakeServiceCallTest extends FunctionalTestCase {
     @Test
     public void testMarkOrderAsShipped() throws MuleException {
 	call("markOrderAsShipped", "first");
-	// There should be a log message...
+	// Not verified: There should be a log message...
     }
 }
