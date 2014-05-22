@@ -3,15 +3,13 @@
 <mule xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns:http="http://www.mulesoft.org/schema/mule/http"
     xmlns:smtps="http://www.mulesoft.org/schema/mule/smtps" xmlns:context="http://www.springframework.org/schema/context"
     xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:pop3s="http://www.mulesoft.org/schema/mule/pop3s"
-    xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
-    xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-    xmlns:spring="http://www.springframework.org/schema/beans" version="EE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-current.xsd
+    xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+    xmlns:spring="http://www.springframework.org/schema/beans" version="CE-3.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
 http://www.mulesoft.org/schema/mule/pop3s http://www.mulesoft.org/schema/mule/pop3s/current/mule-pop3s.xsd
-http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
 http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd
 http://www.mulesoft.org/schema/mule/smtps http://www.mulesoft.org/schema/mule/smtps/current/mule-smtps.xsd
 http://www.mulesoft.org/schema/mule/cxf http://www.mulesoft.org/schema/mule/cxf/current/mule-cxf.xsd
@@ -28,7 +26,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
     <sub-flow name="OrderFlow" doc:name="OrderFlow">
         <json:json-to-object-transformer returnClass="de.codecentric.wundershop.domain.Bestellung"
             doc:name="JSON to Object" />
-        <custom-transformer class="de.codecentric.wundershop.transformers.CreateWorkflowTransformer" doc:name="create workflow"/>
+        <custom-transformer class="de.codecentric.wundershop.transformers.CreateWorkflowTransformer"
+            doc:name="create workflow" />
     </sub-flow>
 
     <flow name="PollForPayment" doc:name="PollForPayment">
@@ -41,9 +40,10 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
                     method="POST" doc:name="8081 Shop" />
             </processor-chain>
         </poll>
-        <expression-transformer expression="#[payload.payments]" doc:name="list with payments"/>
-        <collection-splitter doc:name="split list"/>
-        <custom-transformer class="de.codecentric.wundershop.transformers.SendPaymentReceivedToWorkflow" doc:name="call workflow"/>
+        <expression-transformer expression="#[payload.payments]" doc:name="list with payments" />
+        <collection-splitter doc:name="split list" />
+        <custom-transformer class="de.codecentric.wundershop.transformers.SendPaymentReceivedToWorkflow"
+            doc:name="call workflow" />
         <cxf:jaxws-client operation="markPaymentProcessed" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"
             soapVersion="1.2" doc:name="mark processed" />
         <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop"

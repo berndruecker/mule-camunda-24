@@ -58,17 +58,17 @@ public class FakeServiceCallTest extends FunctionalTestCase {
 	assertEquals(ShopStatus.SHIPPED, fakeShop.getStatus("id"));
     }
     
+    @Test
+    public void testMarkOrderAsShipped() throws MuleException {
+	call("setStatus", new Object[] { "first", ShopStatus.SHIPPED });
+	// Not verified: There should be a log message...
+    }
+    
     private Object call(String operation, Object argument) throws MuleException {
 	Map<String, Object> props = new HashMap<>();
 	props.put("operation", operation);
 	MuleClient client = muleContext.getClient();
 	MuleMessage reply = client.send("vm://fakeservicecaller", argument, props);
 	return reply.getPayload();
-    }
-    
-    @Test
-    public void testMarkOrderAsShipped() throws MuleException {
-	call("markOrderAsShipped", "first");
-	// Not verified: There should be a log message...
     }
 }

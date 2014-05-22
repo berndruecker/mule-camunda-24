@@ -13,7 +13,7 @@
             <property name="auxiliary;index" value="1"/>
         </properties>
     </global-element>
-    <flow SubFlow="false" name="WundershopMail" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="eef71865-514d-429c-a28a-94ecfdfd6a42">
+    <flow SubFlow="false" name="WundershopMail" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="4fb45fe2-abb2-404d-bc2f-a607f87ced83">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -55,7 +55,7 @@
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="true" name="OrderFlow" type="http://www.mulesoft.org/schema/mule/core/subflow" entity-id="2eb5a147-015c-4fa1-a045-ef522954c9df">
+    <flow SubFlow="true" name="OrderFlow" type="http://www.mulesoft.org/schema/mule/core/subflow" entity-id="f46588a8-393e-4ad3-830c-165b22dbe957">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -90,7 +90,7 @@
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="PollForPayment" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="07c031be-ccd5-4c72-9ac8-d74b8c81c640">
+    <flow SubFlow="false" name="PollForPayment" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="a3d12fad-7088-4dca-ad7a-761ef0044e86">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -259,7 +259,7 @@
             </endpoint>
         </lane>
     </flow>
-    <flow SubFlow="false" name="SendMailFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="95567844-32a4-4056-bd79-cc1cb1ae9669">
+    <flow SubFlow="false" name="SendMailFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="56b075ea-34be-4334-bd30-6fcf6a736409">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -319,7 +319,7 @@
             </endpoint>
         </lane>
     </flow>
-    <flow SubFlow="false" name="SetStatusFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="0e3e935f-f4fc-440f-bc74-30d8626d05d7">
+    <flow SubFlow="false" name="SetStatusFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="1b0b3fce-326a-4fb4-b230-2a7569930355">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -397,7 +397,7 @@
             </endpoint>
         </lane>
     </flow>
-    <flow SubFlow="false" name="VMTestFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="7d77e6a7-c109-47ef-8f68-1629a347e3bf">
+    <flow SubFlow="false" name="VMTestFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="e8651296-71a0-432f-afad-22b5c19a4371">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -455,7 +455,7 @@
             </endpoint>
         </lane>
     </flow>
-    <flow SubFlow="false" name="BestellungJsonCreator" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="32adf681-af36-4c59-acc6-4db0745f9061">
+    <flow SubFlow="false" name="BestellungJsonCreator" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="dfa8fe87-b618-46b6-871d-0c51a62ed619">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>

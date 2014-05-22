@@ -23,7 +23,7 @@
             <property name="primary"/>
         </properties>
     </global-element>
-    <flow SubFlow="false" name="FakeShopService" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="58b0e506-74c1-44e3-a5ed-11c243c38afd">
+    <flow SubFlow="false" name="FakeShopService" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="f2acb1ea-2c86-41de-8f67-b7eb54edbba8">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -96,7 +96,7 @@
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="FakeServiceCaller" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="b01e4947-58aa-42dc-abdd-bae69f4d6377">
+    <flow SubFlow="false" name="FakeServiceCaller" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="1b955ea0-5202-4bf5-9725-d32dda683c53">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -183,7 +183,7 @@
             </endpoint>
         </lane>
     </flow>
-    <flow SubFlow="false" name="FakeRestPayment" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="67730748-3b4c-4900-b088-a6d878f3319f">
+    <flow SubFlow="false" name="FakeRestPayment" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="fac88990-0695-4035-9bff-dee144914d05">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
