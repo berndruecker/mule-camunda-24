@@ -20,7 +20,8 @@ public class MuleStarter implements ServletContextListener {
 	DefaultMuleContextFactory muleContextFactory = new DefaultMuleContextFactory();
 	try {
 	    logger.info("Starting Mule...");
-	    SpringXmlConfigurationBuilder configBuilder = new SpringXmlConfigurationBuilder("wundershop.xml");
+	    String[] flows = new String[] { "wundershop.xml", "fakeshopsystem.xml" };
+	    SpringXmlConfigurationBuilder configBuilder = new SpringXmlConfigurationBuilder(flows);
 	    muleContext = muleContextFactory.createMuleContext(configBuilder);
 	    muleContext.start();
 	    logger.info("Mule started");

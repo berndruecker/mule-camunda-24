@@ -141,11 +141,11 @@
             <property name="auxiliary;index" value="12"/>
         </properties>
     </pattern>
-    <endpoint direction="Outbound" name="8081 Shop" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#1">
+    <endpoint direction="Outbound" name="9091 Shop" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#1">
         <graphicalData x="0" y="0" width="0" height="0"/>
         <properties>
             <property name="connector-ref"/>
-            <property name="address" value="http://localhost:8081/soap/shop"/>
+            <property name="address" value="http://localhost:9091/soap/shop"/>
             <property name="method" value="POST"/>
             <property name="mimeType"/>
             <property name="encoding"/>
@@ -228,11 +228,11 @@
                     <property name="auxiliary;index" value="17"/>
                 </properties>
             </pattern>
-            <endpoint direction="Outbound" name="8081 Shop" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#2">
+            <endpoint direction="Outbound" name="9091 Shop" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#2">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
                     <property name="connector-ref"/>
-                    <property name="address" value="http://localhost:8081/soap/shop"/>
+                    <property name="address" value="http://localhost:9091/soap/shop"/>
                     <property name="method" value="POST"/>
                     <property name="mimeType"/>
                     <property name="encoding"/>
@@ -366,11 +366,11 @@
                     <property name="auxiliary;index" value="24"/>
                 </properties>
             </pattern>
-            <endpoint direction="Outbound" name="8081 Shop" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#3">
+            <endpoint direction="Outbound" name="9091 Shop" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#3">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
                     <property name="connector-ref"/>
-                    <property name="address" value="http://localhost:8081/soap/shop"/>
+                    <property name="address" value="http://localhost:9091/soap/shop"/>
                     <property name="method" value="POST"/>
                     <property name="mimeType"/>
                     <property name="encoding"/>

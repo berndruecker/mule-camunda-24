@@ -34,11 +34,11 @@
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#1">
             <graphicalData x="0" y="0" width="0" height="0"/>
-            <endpoint direction="Inbound" name="8081 soap" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#1">
+            <endpoint direction="Inbound" name="9091 soap" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#1">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
                     <property name="connector-ref"/>
-                    <property name="address" value="http://localhost:8081/soap/shop"/>
+                    <property name="address" value="http://localhost:9091/soap/shop"/>
                     <property name="method"/>
                     <property name="mimeType"/>
                     <property name="encoding"/>
@@ -156,7 +156,7 @@
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
                     <property name="connector-ref"/>
-                    <property name="address" value="http://localhost:8081/soap/shop"/>
+                    <property name="address" value="http://localhost:9091/soap/shop"/>
                     <property name="method" value="POST"/>
                     <property name="mimeType"/>
                     <property name="encoding"/>
@@ -194,11 +194,11 @@
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#3">
             <graphicalData x="0" y="0" width="0" height="0"/>
-            <endpoint direction="Inbound" name="8082 rest" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#3">
+            <endpoint direction="Inbound" name="9092 rest" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#3">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
                     <property name="connector-ref"/>
-                    <property name="address" value="http://localhost:8082/rest"/>
+                    <property name="address" value="http://localhost:9092/rest"/>
                     <property name="method"/>
                     <property name="mimeType"/>
                     <property name="encoding"/>

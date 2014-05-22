@@ -22,7 +22,7 @@ http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/j
     <!-- Flows to implement a fake shop -->
     
     <flow name="FakeShopService" doc:name="FakeShopService">
-        <http:inbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop" doc:name="8081 soap" />
+        <http:inbound-endpoint exchange-pattern="request-response" address="http://localhost:9091/soap/shop" doc:name="9091 soap" />
         <cxf:jaxws-service doc:name="CXF" validationEnabled="true" soapVersion="1.2" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"/>
         <component doc:name="FakeShop as Bean">
             <spring-object bean="fakeShop" />
@@ -35,11 +35,11 @@ http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/j
         <vm:inbound-endpoint exchange-pattern="request-response" path="fakeservicecaller" doc:name="FakeServiceCaller"/>
         <set-variable variableName="operation" value="#[message.inboundProperties['operation']]" doc:name="operation" />
         <cxf:jaxws-client operation="dummyCall" serviceClass="de.codecentric.wundershop.shopservice.Shopservice" soapVersion="1.2" doc:name="CXF" />
-        <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop" method="POST" doc:name="HTTP"/>
+        <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:9091/soap/shop" method="POST" doc:name="HTTP"/>
     </flow>
         
     <flow name="FakeRestPayment" doc:name="FakeRestPayment">
-        <http:inbound-endpoint exchange-pattern="request-response" address="http://localhost:8082/rest" doc:name="8082 rest" />
+        <http:inbound-endpoint exchange-pattern="request-response" address="http://localhost:9092/rest" doc:name="9092 rest" />
         <jersey:resources doc:name="REST">
             <component class="de.codecentric.wundershop.fakeshopservice.RestPayment"/>
         </jersey:resources>

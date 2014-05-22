@@ -36,8 +36,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
             <processor-chain doc:name="Processor Chain">
                 <cxf:jaxws-client operation="getUnprocessedPayments" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"
                     soapVersion="1.2" doc:name="get unprocessed" />
-                <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop"
-                    method="POST" doc:name="8081 Shop" />
+                <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:9091/soap/shop"
+                    method="POST" doc:name="9091 Shop" />
             </processor-chain>
         </poll>
         <expression-transformer expression="#[payload.payments]" doc:name="list with payments" />
@@ -46,8 +46,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
             doc:name="call workflow" />
         <cxf:jaxws-client operation="markPaymentProcessed" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"
             soapVersion="1.2" doc:name="mark processed" />
-        <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop"
-            method="POST" doc:name="8081 Shop" />
+        <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:9091/soap/shop"
+            method="POST" doc:name="9091 Shop" />
     </flow>
 
     <flow name="SendMailFlow" doc:name="SendMailFlow">
@@ -61,8 +61,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
         <vm:inbound-endpoint exchange-pattern="request-response" path="set-status" doc:name="set-status" />
         <cxf:jaxws-client operation="setStatus" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"
             soapVersion="1.2" doc:name="set status" />
-        <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:8081/soap/shop"
-            method="POST" doc:name="8081 Shop" />
+        <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:9091/soap/shop"
+            method="POST" doc:name="9091 Shop" />
     </flow>
 
     <!-- Flows for testing -->
