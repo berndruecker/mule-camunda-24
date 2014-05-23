@@ -4,7 +4,7 @@
     xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:context="http://www.springframework.org/schema/context"
     xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core"
     xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:spring="http://www.springframework.org/schema/beans"
-    version="CE-3.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    version="EE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
@@ -15,15 +15,26 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/jersey/current/mule-jersey.xsd">
 
     <spring:beans>
+        <!-- component-scan needed for @Autowired in InInterceptor and OutInterceptor -->
+        <context:component-scan base-package="de.codecentric.wundershop" />
+        
         <!-- We need a bean because we need the instance in the test case. -->
         <spring:bean id="fakeShop" class="de.codecentric.wundershop.fakeshopservice.FakeShopserviceImplementation" scope="singleton" />
+        <spring:bean id="transactionHandler" class="de.codecentric.wundershop.fakeshopservice.TransactionHandler" scope="singleton"/>
     </spring:beans>
-    
+
     <!-- Flows to implement a fake shop -->
     
     <flow name="FakeShopService" doc:name="FakeShopService">
         <http:inbound-endpoint exchange-pattern="request-response" address="http://localhost:9091/soap/shop" doc:name="9091 soap" />
-        <cxf:jaxws-service doc:name="CXF" validationEnabled="true" soapVersion="1.2" serviceClass="de.codecentric.wundershop.shopservice.Shopservice"/>
+        <cxf:jaxws-service doc:name="CXF" validationEnabled="true" soapVersion="1.2" serviceClass="de.codecentric.wundershop.shopservice.Shopservice">
+            <cxf:inInterceptors>
+                <spring:bean class="de.codecentric.wundershop.fakeshopservice.interceptors.InInterceptor" />
+            </cxf:inInterceptors>
+            <cxf:outInterceptors>
+                <spring:bean class="de.codecentric.wundershop.fakeshopservice.interceptors.OutInterceptor" />
+            </cxf:outInterceptors>
+        </cxf:jaxws-service>
         <component doc:name="FakeShop as Bean">
             <spring-object bean="fakeShop" />
         </component>
