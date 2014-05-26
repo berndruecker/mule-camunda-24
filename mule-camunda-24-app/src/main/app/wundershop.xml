@@ -4,7 +4,7 @@
     xmlns:smtps="http://www.mulesoft.org/schema/mule/smtps" xmlns:context="http://www.springframework.org/schema/context"
     xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:pop3s="http://www.mulesoft.org/schema/mule/pop3s"
     xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
-    xmlns:spring="http://www.springframework.org/schema/beans" version="CE-3.4.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:spring="http://www.springframework.org/schema/beans" version="CE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
@@ -21,6 +21,9 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
         <pop3s:inbound-endpoint host="${mail.pop.host}" port="${mail.pop.port}" user="${mail.pop.user}"
             password="${mail.pop.password}" responseTimeout="10000" doc:name="camunda-mule-wundershop" />
         <flow-ref name="OrderFlow" doc:name="OrderFlow" />
+        <catch-exception-strategy doc:name="Catch Exception Strategy">
+            <logger message="Bad Mail: #[payload]" level="ERROR" doc:name="Log Bad Mail"/>
+        </catch-exception-strategy>
     </flow>
 
     <sub-flow name="OrderFlow" doc:name="OrderFlow">
