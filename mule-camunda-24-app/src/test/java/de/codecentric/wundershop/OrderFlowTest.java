@@ -16,7 +16,7 @@ import org.mule.tck.junit4.FunctionalTestCase;
 import de.codecentric.wundershop.domain.Bestellung;
 
 /**
- * Kleiner Testfall, damit man das Json nicht manuell schreiben muss.
+ * Create an order.
  */
 public class OrderFlowTest extends FunctionalTestCase {
     private String bestellungJson;
@@ -41,8 +41,7 @@ public class OrderFlowTest extends FunctionalTestCase {
     @Test
     public void test() throws MuleException {
 	MuleClient client = muleContext.getClient();
-	client.dispatch("vm://vm-mail-test-in", bestellungJson, null);
-	MuleMessage reply = client.request("vm://vm-mail-test-out", 10000);
+	MuleMessage reply = client.send("vm://vm-order", bestellungJson, null);
 	assertNotNull(reply);
 	Bestellung b  = (Bestellung) reply.getPayload();
 	assertNotNull(b);

@@ -11,6 +11,7 @@ public class CreateWorkflowTransformer extends AbstractMessageTransformer {
     @Override
     public Object transformMessage(MuleMessage message, String outputEncoding) throws TransformerException {
 	Bestellung order = (Bestellung) message.getPayload();
+	Object original = message.getOriginalPayload();
 	// TODO: Hier camunda workflow starten
 	return message;
     }
