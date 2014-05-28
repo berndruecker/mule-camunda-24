@@ -1,0 +1,34 @@
+<p>Bitte prüfen die folgende Bestellung - können wir die annehmen?</p>
+
+<div class="row-fluid">
+  <div class="control-group">
+    <label class="control-label">Buchungsreferenz</label>
+    <div class="controls">
+      <input form-field type="string" name="bookingReference" disabled/>
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label">Authorisierungstoken der Kreditkarte</label>
+    <div class="controls">
+      <input form-field type="string" name="creditcardToken" />
+    </div>
+  </div>
+</div>
+
+
+
+
+<script form-script type="text/form-script">
+  console.log($scope.variablesForm);
+  console.log($scope.variablesForm.Bestellung);
+  console.log($scope.variablesForm.booking.name);
+  
+  var client = new XMLHttpRequest();
+  var url = Uri.appUri('engine://engine/:engine/process-instance/'+processInstance.id+'/variables/Bestellung');
+  console.log(url);
+  xmlhttp.open("GET", url, false); // no async!
+  xmlhttp.send();
+  
+  console.log(xmlhttp.responseText);  
+
+</script>

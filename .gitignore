@@ -1,3 +1,7 @@
 target
 /mule-camunda-24-app/src/main/resources/mail.properties
 /desktop.ini
+
+.classpath
+.project
+.settings

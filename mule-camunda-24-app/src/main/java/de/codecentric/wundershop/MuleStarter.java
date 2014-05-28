@@ -12,33 +12,34 @@ import org.mule.context.DefaultMuleContextFactory;
 
 @WebListener
 public class MuleStarter implements ServletContextListener {
-    private Logger logger = Logger.getLogger(MuleStarter.class);
-    private MuleContext muleContext;
+  private Logger logger = Logger.getLogger(MuleStarter.class);
+  private MuleContext muleContext;
 
-    @Override
-    public void contextInitialized(ServletContextEvent event) {
-	DefaultMuleContextFactory muleContextFactory = new DefaultMuleContextFactory();
-	try {
-	    logger.info("Starting Mule...");
-	    String[] flows = new String[] { "wundershop.xml", "fakeshopsystem.xml" };
-	    SpringXmlConfigurationBuilder configBuilder = new SpringXmlConfigurationBuilder(flows);
-	    muleContext = muleContextFactory.createMuleContext(configBuilder);
-	    muleContext.start();
-	    logger.info("Mule started");
-	} catch (MuleException e) {
-	    throw new RuntimeException(e);
-	}
+  @Override
+  public void contextInitialized(ServletContextEvent event) {
+    DefaultMuleContextFactory muleContextFactory = new DefaultMuleContextFactory();
+    try {
+      logger.info("Starting Mule...");
+      String[] flows = new String[] { "wundershop.xml", "fakeshopsystem.xml" };
+      SpringXmlConfigurationBuilder configBuilder = new SpringXmlConfigurationBuilder(flows);
+      muleContext = muleContextFactory.createMuleContext(configBuilder);
+      muleContext.start();
+      logger.info("Mule started");
+    } catch (MuleException e) {
+      throw new RuntimeException(e);
     }
+  }
 
-    @Override
-    public void contextDestroyed(ServletContextEvent event) {
-	try {
-	    logger.info("Stopping Mule...");
-	    muleContext.stop();
-	    muleContext.dispose();
-	    logger.info("Mule stopped");
-        } catch (MuleException e) {
-	    throw new RuntimeException(e);
-        }
+  @Override
+  public void contextDestroyed(ServletContextEvent event) {
+    try {
+      logger.info("Stopping Mule...");
+      muleContext.stop();
+      muleContext.getWorkManager().dispose();
+      muleContext.dispose();
+      logger.info("Mule stopped");
+    } catch (MuleException e) {
+      throw new RuntimeException(e);
     }
+  }
 }

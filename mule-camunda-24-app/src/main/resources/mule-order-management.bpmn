@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="_RdWdANCCEeOWx_GPFLuAdw" exporter="camunda modeler" exporterVersion="2.5.0" targetNamespace="http://activiti.org/bpmn">
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:camunda="http://activiti.org/bpmn" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd" id="_RdWdANCCEeOWx_GPFLuAdw" exporter="camunda modeler" exporterVersion="2.5.0" targetNamespace="http://activiti.org/bpmn">
   <bpmn2:collaboration id="_Collaboration_2">
     <bpmn2:participant id="_Participant_2" name="Mule OrderManagement" processRef="mule-order-management"/>
   </bpmn2:collaboration>
-  <bpmn2:process id="mule-order-management" name="Mule OrderManagement" isExecutable="false">
+  <bpmn2:process id="mule-order-management" name="Mule OrderManagement" isExecutable="true">
     <bpmn2:startEvent id="StartEvent_1" name="order&#xD;&#xA;received">
       <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
-      <bpmn2:messageEventDefinition id="_MessageEventDefinition_2"/>
+      <bpmn2:messageEventDefinition id="_MessageEventDefinition_2" messageRef="Message_2"/>
     </bpmn2:startEvent>
-    <bpmn2:userTask id="UserTask_1" name="confirm&#xD;&#xA;order">
+    <bpmn2:userTask id="UserTask_1" camunda:candidateGroups="sales" camunda:formKey="embedded:app:confirm-order.html" name="confirm&#xD;&#xA;order">
       <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
     </bpmn2:userTask>
@@ -19,11 +19,13 @@
       <bpmn2:outgoing>SequenceFlow_19</bpmn2:outgoing>
     </bpmn2:exclusiveGateway>
     <bpmn2:sequenceFlow id="SequenceFlow_2" name="" sourceRef="UserTask_1" targetRef="ExclusiveGateway_1"/>
-    <bpmn2:serviceTask id="ServiceTask_1" name="set status confirmed shop">
+    <bpmn2:serviceTask id="ServiceTask_1" camunda:class="de.codecentric.wundershop.process.SysoutDelegate" name="set status confirmed shop">
       <bpmn2:incoming>SequenceFlow_3</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_5</bpmn2:outgoing>
     </bpmn2:serviceTask>
-    <bpmn2:sequenceFlow id="SequenceFlow_3" name="" sourceRef="ExclusiveGateway_1" targetRef="ServiceTask_1"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_3" name="" sourceRef="ExclusiveGateway_1" targetRef="ServiceTask_1">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression"><![CDATA[#{"true".equals(orderApproved)}]]></bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
     <bpmn2:eventBasedGateway id="EventBasedGateway_1">
       <bpmn2:incoming>SequenceFlow_5</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_6</bpmn2:outgoing>
@@ -34,15 +36,17 @@
     <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_1" name="payment&#xD;&#xA;received">
       <bpmn2:incoming>SequenceFlow_6</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_8</bpmn2:outgoing>
-      <bpmn2:messageEventDefinition id="_MessageEventDefinition_3"/>
+      <bpmn2:messageEventDefinition id="_MessageEventDefinition_3" messageRef="Message_1"/>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_7" name="" sourceRef="EventBasedGateway_1" targetRef="IntermediateCatchEvent_2"/>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_2" name="timeout">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_2" name="timeout&#xD;&#xA;(5m)">
       <bpmn2:incoming>SequenceFlow_7</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_10</bpmn2:outgoing>
-      <bpmn2:timerEventDefinition id="_TimerEventDefinition_2"/>
+      <bpmn2:timerEventDefinition id="_TimerEventDefinition_2">
+        <bpmn2:timeDuration xsi:type="bpmn2:tFormalExpression">PT5M</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
     </bpmn2:intermediateCatchEvent>
-    <bpmn2:userTask id="UserTask_2" name="produce&#xD;&#xA;article">
+    <bpmn2:userTask id="UserTask_2" camunda:candidateGroups="Management" name="produce&#xD;&#xA;article">
       <bpmn2:incoming>SequenceFlow_8</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_4</bpmn2:outgoing>
     </bpmn2:userTask>
@@ -51,11 +55,13 @@
       <bpmn2:incoming>SequenceFlow_10</bpmn2:incoming>
     </bpmn2:endEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_10" name="" sourceRef="IntermediateCatchEvent_2" targetRef="EndEvent_1"/>
-    <bpmn2:boundaryEvent id="BoundaryEvent_1" name="every 24 hours" attachedToRef="UserTask_2" cancelActivity="false">
+    <bpmn2:boundaryEvent id="BoundaryEvent_1" name="every 24 hours&#xD;&#xA;(3x15s)" attachedToRef="UserTask_2" cancelActivity="false">
       <bpmn2:outgoing>SequenceFlow_11</bpmn2:outgoing>
-      <bpmn2:timerEventDefinition id="_TimerEventDefinition_3"/>
+      <bpmn2:timerEventDefinition id="_TimerEventDefinition_3">
+        <bpmn2:timeCycle xsi:type="bpmn2:tFormalExpression">R3/PT15S</bpmn2:timeCycle>
+      </bpmn2:timerEventDefinition>
     </bpmn2:boundaryEvent>
-    <bpmn2:serviceTask id="ServiceTask_3" name="send reminder email">
+    <bpmn2:serviceTask id="ServiceTask_3" camunda:class="de.codecentric.wundershop.process.SysoutDelegate" name="send reminder email">
       <bpmn2:incoming>SequenceFlow_11</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_12</bpmn2:outgoing>
     </bpmn2:serviceTask>
@@ -67,33 +73,39 @@
     <bpmn2:endEvent id="EndEvent_3" name="order completed">
       <bpmn2:incoming>SequenceFlow_18</bpmn2:incoming>
     </bpmn2:endEvent>
-    <bpmn2:serviceTask id="ServiceTask_4" name="set status shipped in shop">
+    <bpmn2:serviceTask id="ServiceTask_4" camunda:class="de.codecentric.wundershop.process.SysoutDelegate" name="set status shipped in shop">
       <bpmn2:incoming>SequenceFlow_4</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_16</bpmn2:outgoing>
     </bpmn2:serviceTask>
-    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_4" name="2 weeks">
+    <bpmn2:intermediateCatchEvent id="IntermediateCatchEvent_4" name="2 weeks&#xD;&#xA;(5m)">
       <bpmn2:incoming>SequenceFlow_16</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_17</bpmn2:outgoing>
-      <bpmn2:timerEventDefinition id="_TimerEventDefinition_4"/>
+      <bpmn2:timerEventDefinition id="_TimerEventDefinition_4">
+        <bpmn2:timeDuration xsi:type="bpmn2:tFormalExpression">PT5M</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
     </bpmn2:intermediateCatchEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_16" name="" sourceRef="ServiceTask_4" targetRef="IntermediateCatchEvent_4"/>
-    <bpmn2:serviceTask id="ServiceTask_5" name="request feedback via email">
+    <bpmn2:serviceTask id="ServiceTask_5" camunda:class="de.codecentric.wundershop.process.SysoutDelegate" name="request feedback via email">
       <bpmn2:incoming>SequenceFlow_17</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_18</bpmn2:outgoing>
     </bpmn2:serviceTask>
     <bpmn2:sequenceFlow id="SequenceFlow_17" name="" sourceRef="IntermediateCatchEvent_4" targetRef="ServiceTask_5"/>
     <bpmn2:sequenceFlow id="SequenceFlow_18" name="" sourceRef="ServiceTask_5" targetRef="EndEvent_3"/>
-    <bpmn2:serviceTask id="ServiceTask_6" name="set status declined in shop">
+    <bpmn2:serviceTask id="ServiceTask_6" camunda:class="de.codecentric.wundershop.process.SysoutDelegate" name="set status declined in shop">
       <bpmn2:incoming>SequenceFlow_19</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_20</bpmn2:outgoing>
     </bpmn2:serviceTask>
-    <bpmn2:sequenceFlow id="SequenceFlow_19" name="" sourceRef="ExclusiveGateway_1" targetRef="ServiceTask_6"/>
+    <bpmn2:sequenceFlow id="SequenceFlow_19" sourceRef="ExclusiveGateway_1" targetRef="ServiceTask_6">
+      <bpmn2:conditionExpression xsi:type="bpmn2:tFormalExpression"><![CDATA[#{!"true".equals(orderApproved)}]]></bpmn2:conditionExpression>
+    </bpmn2:sequenceFlow>
     <bpmn2:endEvent id="EndEvent_4" name="order rejected">
       <bpmn2:incoming>SequenceFlow_20</bpmn2:incoming>
     </bpmn2:endEvent>
     <bpmn2:sequenceFlow id="SequenceFlow_20" name="" sourceRef="ServiceTask_6" targetRef="EndEvent_4"/>
     <bpmn2:sequenceFlow id="SequenceFlow_4" name="" sourceRef="UserTask_2" targetRef="ServiceTask_4"/>
   </bpmn2:process>
+  <bpmn2:message id="Message_1" name="PAYMENT_RECEIVED"/>
+  <bpmn2:message id="Message_2" name="ORDER_RECEIVED"/>
   <bpmndi:BPMNDiagram id="BPMNDiagram_1">
     <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="_Collaboration_2">
       <bpmndi:BPMNShape id="_BPMNShape_StartEvent_2" bpmnElement="StartEvent_1">
