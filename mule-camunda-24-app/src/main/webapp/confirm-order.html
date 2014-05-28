@@ -1,34 +1,44 @@
-<p>Bitte prüfen die folgende Bestellung - können wir die annehmen?</p>
+<p>Bitte prüfe die folgende Bestellung:</p>
 
-<div class="row-fluid">
-  <div class="control-group">
-    <label class="control-label">Buchungsreferenz</label>
-    <div class="controls">
-      <input form-field type="string" name="bookingReference" disabled/>
-    </div>
+
+
+
+
+<table class="table" style="max-width: 600px">
+  <thead>
+    <tr>
+      <th>name</th>
+      <th>value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Bestellnummer</td>
+      <td>{{bestellung.id}}</td>
+    </tr>
+  </tbody>
+</table>
+
+   <div class="control-group">
+   	  <label class="control-label" for="inputFirstname">Bestellung annehmen?</label>
+      <div class="controls">
+        <label class="radio inline">
+          <input form-field type="radio" name="gender" value="true" required>
+          Ja
+        </label>
+        <label class="radio inline">
+          <input form-field type="radio" name="gender" value="false" required>
+          Nein
+        </label>
+      </div>
   </div>
-  <div class="control-group">
-    <label class="control-label">Authorisierungstoken der Kreditkarte</label>
-    <div class="controls">
-      <input form-field type="string" name="creditcardToken" />
-    </div>
-  </div>
-</div>
 
 
 
 
 <script form-script type="text/form-script">
-  console.log($scope.variablesForm);
-  console.log($scope.variablesForm.Bestellung);
-  console.log($scope.variablesForm.booking.name);
-  
-  var client = new XMLHttpRequest();
-  var url = Uri.appUri('engine://engine/:engine/process-instance/'+processInstance.id+'/variables/Bestellung');
-  console.log(url);
-  xmlhttp.open("GET", url, false); // no async!
-  xmlhttp.send();
-  
-  console.log(xmlhttp.responseText);  
+  console.log($scope.variablesForm); 
+  $scope.bestellung = formVariable('Bestellung');
+   
 
 </script>
