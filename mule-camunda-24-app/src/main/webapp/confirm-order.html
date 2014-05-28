@@ -7,8 +7,8 @@
 <table class="table" style="max-width: 600px">
   <thead>
     <tr>
-      <th>name</th>
-      <th>value</th>
+      <th></th>
+      <th>Bestellinformation</th>
     </tr>
   </thead>
   <tbody>
@@ -37,8 +37,8 @@
 
 
 <script form-script type="text/form-script">
-  console.log($scope.variablesForm); 
-  $scope.bestellung = formVariable('Bestellung');
-   
-
+  //console.log($scope.variablesForm); 
+  //console.log($scope.formVariable('bestellung'));
+  $scope.bestellung = JSON.parse($scope.formVariable('bestellung'));
+  //console.log($scope.bestellung);
 </script>
