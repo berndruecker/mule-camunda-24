@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+<mule xmlns:jersey="http://www.mulesoft.org/schema/mule/jersey"
+	xmlns:cxf="http://www.mulesoft.org/schema/mule/cxf" xmlns:http="http://www.mulesoft.org/schema/mule/http"
     xmlns:smtps="http://www.mulesoft.org/schema/mule/smtps" xmlns:context="http://www.springframework.org/schema/context"
     xmlns:json="http://www.mulesoft.org/schema/mule/json" xmlns:pop3s="http://www.mulesoft.org/schema/mule/pop3s"
     xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
     xmlns:spring="http://www.springframework.org/schema/beans" version="CE-3.5.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
+    xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/jersey/current/mule-jersey.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
 http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
@@ -17,6 +19,11 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 
     <context:property-placeholder location="mail.properties" />
 
+    <spring:beans>
+        <!-- component-scan needed for @Autowired -->
+        <context:component-scan base-package="de.codecentric.wundershop" />
+    </spring:beans>
+    
     <flow name="WundershopMail" doc:name="WundershopMail">
         <pop3s:inbound-endpoint host="${mail.pop.host}" port="${mail.pop.port}" user="${mail.pop.user}"
             password="${mail.pop.password}" responseTimeout="10000" doc:name="camunda-mule-wundershop" />
@@ -72,10 +79,17 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 
     <!-- Flows for testing -->
 
-    <flow name="VMTestFlow" doc:name="VMTestFlow">
-        <vm:inbound-endpoint exchange-pattern="one-way" path="vm-mail-test-in" doc:name="Mail-Test in" />
+    <flow name="JsonRestOrderFlow" doc:name="FakeRestPayment">
+        <http:inbound-endpoint exchange-pattern="request-response" address="http://localhost:9092/rest" doc:name="9092 rest" />
+        <jersey:resources doc:name="REST">
+            <component class="de.codecentric.wundershop.rest.RestOrder"/>
+            <component class="de.codecentric.wundershop.rest.RestPayment"/>
+        </jersey:resources>
+    </flow>
+    
+    <flow name="VMOrderFlow" doc:name="VMOrderFlow">
+        <vm:inbound-endpoint exchange-pattern="request-response" path="vm-order" doc:name="vm-order" />
         <flow-ref name="OrderFlow" doc:name="OrderFlow" />
-        <vm:outbound-endpoint exchange-pattern="one-way" path="vm-mail-test-out" doc:name="Mail-Test out" />
     </flow>
 
     <flow name="BestellungJsonCreator" doc:name="BestellungJsonCreator">

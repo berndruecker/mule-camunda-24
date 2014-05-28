@@ -15,7 +15,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
 http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/jersey/current/mule-jersey.xsd">
 
     <spring:beans>
-        <!-- component-scan needed for @Autowired in InInterceptor and OutInterceptor -->
+        <!-- component-scan needed for @Autowired -->
         <context:component-scan base-package="de.codecentric.wundershop" />
         
         <!-- We need a bean because we need the instance in the test case. -->
@@ -47,12 +47,5 @@ http://www.mulesoft.org/schema/mule/jersey http://www.mulesoft.org/schema/mule/j
         <set-variable variableName="operation" value="#[message.inboundProperties['operation']]" doc:name="operation" />
         <cxf:jaxws-client operation="dummyCall" serviceClass="de.codecentric.wundershop.shopservice.Shopservice" soapVersion="1.2" doc:name="CXF" />
         <http:outbound-endpoint exchange-pattern="request-response" address="http://localhost:9091/soap/shop" method="POST" doc:name="HTTP"/>
-    </flow>
-        
-    <flow name="FakeRestPayment" doc:name="FakeRestPayment">
-        <http:inbound-endpoint exchange-pattern="request-response" address="http://localhost:9092/rest" doc:name="9092 rest" />
-        <jersey:resources doc:name="REST">
-            <component class="de.codecentric.wundershop.fakeshopservice.RestPayment"/>
-        </jersey:resources>
     </flow>
 </mule>
