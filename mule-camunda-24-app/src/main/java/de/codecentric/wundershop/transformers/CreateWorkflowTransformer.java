@@ -1,5 +1,6 @@
 package de.codecentric.wundershop.transformers;
 
+import org.apache.log4j.Logger;
 import org.camunda.bpm.BpmPlatform;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.mule.api.MuleMessage;
@@ -10,12 +11,13 @@ import de.codecentric.wundershop.process.Constants;
 import de.codecentric.wundershop.process.ProcessVariableAccessor;
 
 public class CreateWorkflowTransformer extends AbstractMessageTransformer {
-
+    private static Logger logger = Logger.getLogger(CreateWorkflowTransformer.class);
+    
   @Override
   public Object transformMessage(MuleMessage message, String outputEncoding) throws TransformerException {
     String orderJSON = (String) message.getPayload();
     
-    System.out.println(" ### RECEIVED BESTELLUNG : " + orderJSON);
+    logger.info("#### RECEIVED BESTELLUNG : " + orderJSON);
 
     ProcessVariableAccessor variables = new ProcessVariableAccessor();
     variables.setBestellungJSON(orderJSON);
