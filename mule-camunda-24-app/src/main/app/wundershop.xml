@@ -34,10 +34,8 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
     </flow>
 
     <sub-flow name="OrderFlow" doc:name="OrderFlow">
-    	<!-- 
         <json:json-to-object-transformer returnClass="de.codecentric.wundershop.domain.Bestellung"
             doc:name="JSON to Object" />
-		-->
         <custom-transformer class="de.codecentric.wundershop.transformers.CreateWorkflowTransformer"
             doc:name="create workflow" />
     </sub-flow>
