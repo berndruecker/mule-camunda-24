@@ -11,20 +11,20 @@ public class TransactionHandler {
      * Called before service method is executed.
      */
     public void beginTransaction() {
-	logger.info("beginTransaction");
+	logger.debug("beginTransaction");
     }
     
     /**
      * Called on successful execution of service method.
      */
     public void commitTransaction() {
-	logger.info("commitTransaction");
+	logger.debug("commitTransaction");
     }
     
     /**
      * Called when service method has thrown an Exception.
      */
     public void rollbackTransaction() {
-	logger.info("rollbackTransaction");
+	logger.debug("rollbackTransaction");
     }
 }

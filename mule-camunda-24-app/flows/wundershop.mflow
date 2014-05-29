@@ -16,7 +16,7 @@
     <global-unknown wrapIn="beans" wrapNSPref="spring" wrapNSURL="http://www.springframework.org/schema/beans" description="false" parentIndex="2" index="3" entity-id="global-unknown#1">
         <content>&lt;context:component-scan xmlns:context=&quot;http://www.springframework.org/schema/context&quot; base-package=&quot;de.codecentric.wundershop&quot;/&gt;</content>
     </global-unknown>
-    <flow SubFlow="false" name="WundershopMail" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="c94e3bbc-c4ba-4627-9cd2-45c53c9b894b">
+    <flow SubFlow="false" name="WundershopMail" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="a84eae90-4be9-4bea-adc5-f434bcc2cc0f">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -79,7 +79,7 @@
             </scope>
         </lane>
     </flow>
-    <flow SubFlow="true" name="OrderFlow" type="http://www.mulesoft.org/schema/mule/core/subflow" entity-id="95ac9c03-4f5f-42aa-8540-fd56accfc339">
+    <flow SubFlow="true" name="OrderFlow" type="http://www.mulesoft.org/schema/mule/core/subflow" entity-id="be5ad44d-3628-47ab-b68b-29d641838190">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
@@ -90,17 +90,6 @@
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#3">
             <graphicalData x="0" y="0" width="0" height="0"/>
-            <pattern name="JSON to Object" type="http://www.mulesoft.org/schema/mule/json/json-to-object-transformer" entity-id="JSON to Object#1">
-                <graphicalData x="0" y="0" width="0" height="0"/>
-                <properties>
-                    <property name="mapper-ref"/>
-                    <property name="returnClass" value="de.codecentric.wundershop.domain.Bestellung"/>
-                    <property name="mimeType"/>
-                    <property name="encoding"/>
-                    <property name="ignoreBadInput"/>
-                    <property name="auxiliary;index" value="10"/>
-                </properties>
-            </pattern>
             <pattern name="create workflow" type="org.mule.tooling.ui.modules.core.pattern.customTransformer" entity-id="Java#1">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
@@ -109,19 +98,19 @@
                     <property name="encoding"/>
                     <property name="class" value="de.codecentric.wundershop.transformers.CreateWorkflowTransformer"/>
                     <property name="ignoreBadInput"/>
-                    <property name="auxiliary;index" value="11"/>
+                    <property name="auxiliary;index" value="10"/>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="PollForPayment" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="7e30b4f6-daf3-4f77-8323-077fb455d066">
+    <flow SubFlow="false" name="PollForPayment" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="213cbf25-5721-4888-a32d-002abc4462ab">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="auxiliary;index" value="12"/>
+            <property name="auxiliary;index" value="11"/>
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#4">
             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -131,12 +120,12 @@
                     <property name="cron-scheduler"/>
                     <property name="fixed-frequency-scheduler"/>
                     <property name="frequency"/>
-                    <property name="auxiliary;index" value="13"/>
+                    <property name="auxiliary;index" value="12"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/core/fixed-frequency-scheduler;0">
-                        <property name="auxiliary;wrapIn" value="14"/>
+                        <property name="auxiliary;wrapIn" value="13"/>
                         <property name="frequency" value="10"/>
                         <property name="timeUnit" value="SECONDS"/>
-                        <property name="auxiliary;index" value="14"/>
+                        <property name="auxiliary;index" value="13"/>
                     </property-collection>
                 </properties>
                 <compartment entity-id="compartment#2">
@@ -144,7 +133,7 @@
                         <scope name="Processor Chain" type="http://www.mulesoft.org/schema/mule/core/processor-chain" entity-id="Processor Chain#1">
                             <graphicalData x="0" y="0" width="0" height="0"/>
                             <properties>
-<property name="auxiliary;index" value="15"/>
+<property name="auxiliary;index" value="14"/>
                             </properties>
                             <compartment entity-id="compartment#3">
 <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#6">
@@ -162,7 +151,7 @@
             <property name="enableMuleSoapHeaders"/>
             <property name="soapVersion" value="1.2"/>
             <property name="decoupledEndpoint"/>
-            <property name="auxiliary;index" value="16"/>
+            <property name="auxiliary;index" value="15"/>
         </properties>
     </pattern>
     <endpoint direction="Outbound" name="9091 Shop" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#1">
@@ -176,7 +165,7 @@
             <property name="encoding"/>
             <property name="httpLabel"/>
             <property name="disableTransportTransformer"/>
-            <property name="auxiliary;index" value="17"/>
+            <property name="auxiliary;index" value="16"/>
             <property name="path"/>
             <property name="responseTransformer-refs"/>
             <property name="exchange-pattern" value="request-response"/>
@@ -212,7 +201,7 @@
                     <property name="encoding"/>
                     <property name="ignoreBadInput"/>
                     <property name="evaluator"/>
-                    <property name="auxiliary;index" value="18"/>
+                    <property name="auxiliary;index" value="17"/>
                 </properties>
             </pattern>
             <pattern name="split list" type="http://www.mulesoft.org/schema/mule/core/collection-splitter" entity-id="Collection Splitter#1">
@@ -221,7 +210,7 @@
                     <property name="tracking:enable-default-events"/>
                     <property name="enableCorrelation"/>
                     <property name="businessEventsLabel"/>
-                    <property name="auxiliary;index" value="19"/>
+                    <property name="auxiliary;index" value="18"/>
                 </properties>
             </pattern>
             <pattern name="call workflow" type="org.mule.tooling.ui.modules.core.pattern.customTransformer" entity-id="Java#2">
@@ -232,7 +221,7 @@
                     <property name="encoding"/>
                     <property name="class" value="de.codecentric.wundershop.transformers.SendPaymentReceivedToWorkflow"/>
                     <property name="ignoreBadInput"/>
-                    <property name="auxiliary;index" value="20"/>
+                    <property name="auxiliary;index" value="19"/>
                 </properties>
             </pattern>
             <pattern name="mark processed" type="http://www.mulesoft.org/schema/mule/cxf/soapComponent" entity-id="CXF#2">
@@ -249,7 +238,7 @@
                     <property name="enableMuleSoapHeaders"/>
                     <property name="soapVersion" value="1.2"/>
                     <property name="decoupledEndpoint"/>
-                    <property name="auxiliary;index" value="21"/>
+                    <property name="auxiliary;index" value="20"/>
                 </properties>
             </pattern>
             <endpoint direction="Outbound" name="9091 Shop" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#2">
@@ -263,7 +252,7 @@
                     <property name="encoding"/>
                     <property name="httpLabel"/>
                     <property name="disableTransportTransformer"/>
-                    <property name="auxiliary;index" value="22"/>
+                    <property name="auxiliary;index" value="21"/>
                     <property name="path"/>
                     <property name="responseTransformer-refs"/>
                     <property name="exchange-pattern" value="request-response"/>
@@ -283,14 +272,14 @@
             </endpoint>
         </lane>
     </flow>
-    <flow SubFlow="false" name="SendMailFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="d800ceb7-8030-4c45-bb3e-6071402c7c09">
+    <flow SubFlow="false" name="SendMailFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="0e98e22b-613a-4f3a-adeb-64fd6f9fb4fc">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="auxiliary;index" value="23"/>
+            <property name="auxiliary;index" value="22"/>
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#7">
             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -302,7 +291,7 @@
                     <property name="mimeType"/>
                     <property name="encoding"/>
                     <property name="disableTransportTransformer"/>
-                    <property name="auxiliary;index" value="24"/>
+                    <property name="auxiliary;index" value="23"/>
                     <property name="path" value="send-mail"/>
                     <property name="responseTransformer-refs"/>
                     <property name="exchange-pattern" value="request-response"/>
@@ -324,7 +313,7 @@
                     <property name="mimeType"/>
                     <property name="encoding"/>
                     <property name="disableTransportTransformer"/>
-                    <property name="auxiliary;index" value="25"/>
+                    <property name="auxiliary;index" value="24"/>
                     <property name="exchange-pattern" value="one-way"/>
                     <property name="password" value="${mail.smtp.password}"/>
                     <property name="tracking:enable-default-events"/>
@@ -343,14 +332,14 @@
             </endpoint>
         </lane>
     </flow>
-    <flow SubFlow="false" name="SetStatusFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="596b89c2-d959-4baf-8301-3ddbd49e64a7">
+    <flow SubFlow="false" name="SetStatusFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="cde28271-9de2-45eb-b0ac-f359b3519dfe">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="auxiliary;index" value="26"/>
+            <property name="auxiliary;index" value="25"/>
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#8">
             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -362,7 +351,7 @@
                     <property name="mimeType"/>
                     <property name="encoding"/>
                     <property name="disableTransportTransformer"/>
-                    <property name="auxiliary;index" value="27"/>
+                    <property name="auxiliary;index" value="26"/>
                     <property name="path" value="set-status"/>
                     <property name="responseTransformer-refs"/>
                     <property name="exchange-pattern" value="request-response"/>
@@ -387,7 +376,7 @@
                     <property name="enableMuleSoapHeaders"/>
                     <property name="soapVersion" value="1.2"/>
                     <property name="decoupledEndpoint"/>
-                    <property name="auxiliary;index" value="28"/>
+                    <property name="auxiliary;index" value="27"/>
                 </properties>
             </pattern>
             <endpoint direction="Outbound" name="9091 Shop" type="http://www.mulesoft.org/schema/mule/http/endpoint" entity-id="HTTP#3">
@@ -401,7 +390,7 @@
                     <property name="encoding"/>
                     <property name="httpLabel"/>
                     <property name="disableTransportTransformer"/>
-                    <property name="auxiliary;index" value="29"/>
+                    <property name="auxiliary;index" value="28"/>
                     <property name="path"/>
                     <property name="responseTransformer-refs"/>
                     <property name="exchange-pattern" value="request-response"/>
@@ -421,14 +410,14 @@
             </endpoint>
         </lane>
     </flow>
-    <flow SubFlow="false" name="JsonRestOrderFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="0a0ea1c2-27c7-48ed-bddd-368277eccac0">
+    <flow SubFlow="false" name="JsonRestOrderPaymentFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="a6a779b1-4de5-4326-b2ad-66541a2f3cd7">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="auxiliary;index" value="30"/>
+            <property name="auxiliary;index" value="29"/>
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#9">
             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -443,7 +432,7 @@
                     <property name="encoding"/>
                     <property name="httpLabel"/>
                     <property name="disableTransportTransformer"/>
-                    <property name="auxiliary;index" value="31"/>
+                    <property name="auxiliary;index" value="30"/>
                     <property name="path"/>
                     <property name="responseTransformer-refs"/>
                     <property name="exchange-pattern" value="request-response"/>
@@ -464,29 +453,29 @@
             <pattern name="REST" type="http://www.mulesoft.org/schema/mule/jersey/resources" entity-id="REST#1">
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
-                    <property name="auxiliary;index" value="32"/>
+                    <property name="auxiliary;index" value="31"/>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/core/component;0">
-                        <property name="auxiliary;wrapIn" value="33"/>
+                        <property name="auxiliary;wrapIn" value="32"/>
                         <property name="class" value="de.codecentric.wundershop.rest.RestOrder"/>
-                        <property name="auxiliary;index" value="33"/>
+                        <property name="auxiliary;index" value="32"/>
                     </property-collection>
                     <property-collection name="@http://www.mulesoft.org/schema/mule/core/component;1">
-                        <property name="auxiliary;wrapIn" value="34"/>
+                        <property name="auxiliary;wrapIn" value="33"/>
                         <property name="class" value="de.codecentric.wundershop.rest.RestPayment"/>
-                        <property name="auxiliary;index" value="34"/>
+                        <property name="auxiliary;index" value="33"/>
                     </property-collection>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="VMOrderFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="b29565a8-5779-45b7-a9b2-7b8c3782b609">
+    <flow SubFlow="false" name="VMOrderFlow" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="f6b5478a-dfa5-476b-808d-98a7933ab5da">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="auxiliary;index" value="35"/>
+            <property name="auxiliary;index" value="34"/>
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#10">
             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -498,7 +487,7 @@
                     <property name="mimeType"/>
                     <property name="encoding"/>
                     <property name="disableTransportTransformer"/>
-                    <property name="auxiliary;index" value="36"/>
+                    <property name="auxiliary;index" value="35"/>
                     <property name="path" value="vm-order"/>
                     <property name="responseTransformer-refs"/>
                     <property name="exchange-pattern" value="request-response"/>
@@ -513,19 +502,19 @@
                 <graphicalData x="0" y="0" width="0" height="0"/>
                 <properties>
                     <property name="name" value="OrderFlow"/>
-                    <property name="auxiliary;index" value="37"/>
+                    <property name="auxiliary;index" value="36"/>
                 </properties>
             </pattern>
         </lane>
     </flow>
-    <flow SubFlow="false" name="BestellungJsonCreator" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="898a9c9b-a93e-4fc3-8239-53b1fe99db9f">
+    <flow SubFlow="false" name="BestellungJsonCreator" type="http://www.mulesoft.org/schema/mule/core/flow" entity-id="89e4fe2e-8c01-4a5f-a525-66c8b4b68292">
         <properties>
             <property name="initialState"/>
             <property name="processingStrategy2"/>
             <property name="processingStrategy"/>
             <property name="bussinessEventsLabel"/>
             <property name="tracking:enable-default-events"/>
-            <property name="auxiliary;index" value="38"/>
+            <property name="auxiliary;index" value="37"/>
         </properties>
         <lane hadOnlyOneElement="false" index="0" isChoiceOtherwiseLane="false" entity-id="compartment-lane#11">
             <graphicalData x="0" y="0" width="0" height="0"/>
@@ -537,7 +526,7 @@
                     <property name="mimeType"/>
                     <property name="encoding"/>
                     <property name="disableTransportTransformer"/>
-                    <property name="auxiliary;index" value="39"/>
+                    <property name="auxiliary;index" value="38"/>
                     <property name="path" value="jsoncreate"/>
                     <property name="responseTransformer-refs"/>
                     <property name="exchange-pattern" value="request-response"/>
@@ -557,7 +546,7 @@
                     <property name="sourceClass"/>
                     <property name="encoding"/>
                     <property name="ignoreBadInput"/>
-                    <property name="auxiliary;index" value="40"/>
+                    <property name="auxiliary;index" value="39"/>
                 </properties>
             </pattern>
         </lane>
