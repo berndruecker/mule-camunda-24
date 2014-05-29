@@ -77,7 +77,7 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
             method="POST" doc:name="9091 Shop" />
     </flow>
 
-    <!-- Flows for testing 
+    <!-- Flows for testing -->
 
     <flow name="JsonRestOrderFlow" doc:name="FakeRestPayment">
         <http:inbound-endpoint exchange-pattern="request-response" address="http://localhost:9092/rest" doc:name="9092 rest" />
@@ -96,5 +96,5 @@ http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/htt
         <vm:inbound-endpoint exchange-pattern="request-response" path="jsoncreate" doc:name="JsonCreate" />
         <json:object-to-json-transformer doc:name="Object to JSON" />
     </flow>
--->
+
 </mule>

@@ -12,8 +12,9 @@ import org.mule.context.DefaultMuleContextFactory;
 
 @WebListener
 public class MuleStarter implements ServletContextListener {
+  
   private Logger logger = Logger.getLogger(MuleStarter.class);
-  private MuleContext muleContext;
+  public static MuleContext muleContext;
 
   @Override
   public void contextInitialized(ServletContextEvent event) {
@@ -40,6 +41,8 @@ public class MuleStarter implements ServletContextListener {
       logger.info("Mule stopped");
     } catch (MuleException e) {
       throw new RuntimeException(e);
+    } finally {
+      muleContext = null;
     }
   }
 }
