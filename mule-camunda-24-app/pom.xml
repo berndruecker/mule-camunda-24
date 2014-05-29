@@ -378,6 +378,12 @@
             <url>http://repository.mulesoft.org/snapshots/</url>
             <layout>default</layout>
         </repository>
+        <repository>
+            <id>camunda</id>
+            <name>camunda Repository</name>
+            <url>https://app.camunda.com/nexus/content/groups/public/</url>
+            <layout>default</layout>
+        </repository>
     </repositories>
     <pluginRepositories>
         <pluginRepository>
