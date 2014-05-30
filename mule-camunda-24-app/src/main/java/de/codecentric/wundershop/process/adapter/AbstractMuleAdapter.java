@@ -22,9 +22,9 @@ public abstract class AbstractMuleAdapter implements JavaDelegate {
 
   public abstract void callMule(DelegateExecution execution, ProcessVariableAccessor variables) throws Exception;
 
-  public Object callMuleFlowSync(String flowName, Object argument, Map<String, Object> properties) throws MuleException {
+  public Object callMuleFlowSync(String vmPath, Object argument, Map<String, Object> properties) throws MuleException {
     MuleClient client = MuleStarter.muleContext.getClient();
-    MuleMessage reply = client.send("vm://" + flowName, argument, properties);
+    MuleMessage reply = client.send("vm://" + vmPath, argument, properties);
     return reply.getPayload();
   }
 
