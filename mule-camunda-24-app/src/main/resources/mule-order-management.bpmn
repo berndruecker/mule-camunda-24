@@ -8,7 +8,7 @@
       <bpmn2:outgoing>SequenceFlow_1</bpmn2:outgoing>
       <bpmn2:messageEventDefinition id="_MessageEventDefinition_2" messageRef="Message_2"/>
     </bpmn2:startEvent>
-    <bpmn2:userTask id="userTaskConfirmOrder" camunda:candidateGroups="sales" camunda:formKey="embedded:app:confirm-order.html" name="confirm&#xD;&#xA;order">
+    <bpmn2:userTask id="userTaskConfirmOrder" camunda:candidateGroups="sales" camunda:formKey="embedded:app:confirm-order-form.html" name="confirm&#xD;&#xA;order">
       <bpmn2:incoming>SequenceFlow_1</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_2</bpmn2:outgoing>
     </bpmn2:userTask>
@@ -46,7 +46,7 @@
         <bpmn2:timeDuration xsi:type="bpmn2:tFormalExpression">PT5M</bpmn2:timeDuration>
       </bpmn2:timerEventDefinition>
     </bpmn2:intermediateCatchEvent>
-    <bpmn2:userTask id="userTaskProduceArticle" camunda:candidateGroups="management" camunda:formKey="embedded:app:produce-article.html" name="produce&#xD;&#xA;article">
+    <bpmn2:userTask id="userTaskProduceArticle" camunda:candidateGroups="management" camunda:formKey="embedded:app:produce-article-form.html" name="produce&#xD;&#xA;article">
       <bpmn2:incoming>SequenceFlow_8</bpmn2:incoming>
       <bpmn2:outgoing>SequenceFlow_4</bpmn2:outgoing>
     </bpmn2:userTask>
