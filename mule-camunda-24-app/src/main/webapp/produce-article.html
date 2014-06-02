@@ -1,4 +1,4 @@
-<p>Bitte prüfe die folgende Bestellung:</p>
+<p>Bitte produzieren:</p>
 
 
 
@@ -7,15 +7,6 @@
     <tr>
       <td>Bestellnummer</td>
       <td>{{bestellung.id}}</td>
-    </tr>
-    <tr>
-      <td>Email</td>
-      <td>{{bestellung.adresse.email}}</td>
-    </tr>
-    <tr>
-      <td>Kunde</td>
-      <td>{{bestellung.adresse.strasseUndHausnummer}} <br>
-          {{bestellung.adresse.postleitzahl}} {{bestellung.adresse.ort}}</td>
     </tr>
     <tr>
       <td>Positionen</td>
@@ -32,19 +23,6 @@
   </tbody>
 </table>
 
-<div class="control-group">
-  <label class="control-label">Bestellung annehmen?</label>
-  <div class="controls">
-    <label class="radio inline">
-      <input form-field type="radio" name="orderApproved" value="true" required>
-      Ja
-    </label>
-    <label class="radio inline">
-      <input form-field type="radio" name="orderApproved" value="false" required>
-      Nein
-    </label>
-  </div>
-</div>
 
 
 
