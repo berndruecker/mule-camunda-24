@@ -1,21 +1,17 @@
 package de.codecentric.wundershop;
 
-import static org.assertj.core.api.Assertions.fail;
 import static org.camunda.bpm.engine.test.assertions.ProcessEngineAssertions.assertThat;
-import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.*;
-import static org.junit.Assert.assertEquals;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.claim;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.complete;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.execute;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.job;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.task;
+import static org.camunda.bpm.engine.test.assertions.ProcessEngineTests.withVariables;
 
-import java.util.List;
-
-import org.apache.tools.ant.taskdefs.Execute;
-import org.camunda.bpm.BpmPlatform;
-import org.camunda.bpm.engine.ProcessEngine;
-import org.camunda.bpm.engine.RuntimeService;
 import org.camunda.bpm.engine.impl.cfg.StandaloneInMemProcessEngineConfiguration;
 import org.camunda.bpm.engine.runtime.ProcessInstance;
 import org.camunda.bpm.engine.test.Deployment;
 import org.camunda.bpm.engine.test.ProcessEngineRule;
-import org.camunda.bpm.engine.test.assertions.ProcessEngineTests;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -26,7 +22,6 @@ import de.codecentric.wundershop.domain.BestellungFactory;
 import de.codecentric.wundershop.fakeshopservice.FakeShopserviceImplementation;
 import de.codecentric.wundershop.process.Constants;
 import de.codecentric.wundershop.process.ProcessVariableAccessor;
-import de.codecentric.wundershop.shopservice.to.GetUnprocessedPaymentsResponse;
 
 public class ProcessTest extends FunctionalTestCase {
 

@@ -1,19 +1,10 @@
 package de.codecentric.wundershop;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import java.io.InputStreamReader;
 import java.io.Reader;
 
 import org.junit.Before;
-import org.junit.Test;
-import org.mule.api.MuleException;
-import org.mule.api.MuleMessage;
-import org.mule.api.client.MuleClient;
 import org.mule.tck.junit4.FunctionalTestCase;
-
-import de.codecentric.wundershop.domain.Bestellung;
 
 /**
  * Create an order.
@@ -36,5 +27,7 @@ public class OrderFlowTest extends FunctionalTestCase {
 	    }
 	}
 	bestellungJson = sb.toString();
+	System.out.println("Bestellung as json:");
+	System.out.println(bestellungJson);
     }
 }
