@@ -19,4 +19,4 @@ mail.smtp.password=your-smtp-password
 
 The project can be build with maven: mvn package
 
-The war has to be deployed into a Tomcat instance with the camunda workflow engine. You can download a prepared Tomcat from http://www.camunda.com
+The war has to be deployed into a Tomcat instance with the camunda workflow engine. You can download a prepared Tomcat from http://camunda.org/
